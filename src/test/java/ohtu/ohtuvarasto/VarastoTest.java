@@ -75,4 +75,45 @@ public class VarastoTest {
         varasto = new Varasto(-1,-1);
         varasto.toString();
     }
+    
+    @Test
+    public void negatiivinenLisaaminen(){
+        double saldo = varasto.getSaldo();
+        
+        varasto.lisaaVarastoon(-20.0);
+        
+        assertEquals(saldo, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void vahemmanKuinPaljonkoMahtuu(){
+        varasto.lisaaVarastoon(varasto.paljonkoMahtuu()-2);
+        
+        assertEquals(varasto.getSaldo(), varasto.getTilavuus()-2, vertailuTarkkuus);
+    }
+    
+    @Test
+    public void enemmanKuinMahtuu(){
+        varasto.lisaaVarastoon(varasto.paljonkoMahtuu()+20);
+        
+        assertEquals(varasto.getTilavuus(), varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void negatiivinenOttaminen(){
+        double saldo = varasto.getSaldo();
+        
+        varasto.otaVarastosta(-10);
+        
+        assertEquals(saldo, varasto.getSaldo(), vertailuTarkkuus);
+    }
+    
+    @Test
+    public void maaraEnemmainKuinSaldo(){
+        double saldo = varasto.getSaldo();
+        double otettu = varasto.otaVarastosta(varasto.getSaldo()+2);
+        
+        assertEquals(otettu, saldo, vertailuTarkkuus);
+        assertEquals(0.0, varasto.getSaldo(), vertailuTarkkuus);
+    }
 }
